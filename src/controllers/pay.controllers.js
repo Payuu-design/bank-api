@@ -39,8 +39,8 @@ export default async function (req, res) {
     } catch (err) {
         return res.status(500).json({ message: 'Error', reason: 'Internal server error', data });
     }
-    console.log('ref_number', ref_number);
-    console.log('tran', tran);
+    // console.log('ref_number', ref_number);
+    // console.log('tran', tran);
     if (tran) return res.status(400).json({
         message: 'OK',
         reason: 'Transaction already processed',
@@ -85,22 +85,15 @@ export default async function (req, res) {
                 return res.status(400).json({ message: 'Error', reason: 'Insufficient charge', data });
             }
         }
-        console.log('ok 1');
         tran = await Transaction.create({ ...data, effective_date: new Date() });
         // tran = new Transaction({ ...data, effective_date: new Date() });
-        console.log('ok 1.1');
 
         const cardUni = await Card.findOne({ id: 999 });
-        console.log('ok 1.2');
 
         card.balance -= parseInt(tran.charge);
-        console.log('ok 1.3');
         cardUni.balance += amount;
-        console.log('ok 1.4');
         await card.save();
-        console.log('ok 1.5');
         await cardUni.save();
-        console.log('ok 2');
         tran.successful = true;
         if (tran.amount === tran.charge) tran.fulfilled = true;
         await tran.save();
