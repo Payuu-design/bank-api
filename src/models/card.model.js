@@ -3,7 +3,7 @@ const { Schema, model } = mongoose;
 
 export default model('Card', new Schema({
   id: { type: Number, unique: true },
-  person_id: { type: String, ref: 'Person' },
+  person_id: { type: Number, ref: 'Person' },
   card_category_id: { type: Number, ref: 'Card_Category' },
   card_type_id: { type: Number, ref: 'Card_Type' },
   card_number: { type: String, unique: true },
