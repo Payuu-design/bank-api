@@ -90,7 +90,7 @@ export default async function (req, res) {
         tran = await Transaction.create({ ...data, effective_date: new Date() });
         // tran = new Transaction({ ...data, effective_date: new Date() });
 
-        const cardUni = await Card.findOne({ owner: 'Universidad' });
+        const cardUni = await Card.findById(999);
 
         card.balance -= parseInt(tran.charge);
         cardUni.balance += amount;
