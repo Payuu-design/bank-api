@@ -7,11 +7,11 @@ import person from './card.routes.js';
 
 const router = Router();
 
-app.use('/pay', pay);
-app.use('/check-balance', checkBalance);
-app.use('/check-card', checkCard);
+router.use('/pay', pay);
+router.use('/check-balance', checkBalance);
+router.use('/check-card', checkCard);
 
-app.use('/card', card);
-app.use('/person', person);
+router.use('/card', card);
+router.use('/person', person);
 
 export default router;
