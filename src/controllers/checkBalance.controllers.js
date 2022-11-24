@@ -7,7 +7,7 @@ export default async function (req, res) {
 
     let cardFound;
     try {
-        cardFound = await Card.find({ card_number: card.card_number }, 
+        cardFound = await Card.findOne({ card_number: card.card_number }, 
             'amount owner card_number card_type_id');
     } catch (err) {
         return res.status(500).json({ err })
