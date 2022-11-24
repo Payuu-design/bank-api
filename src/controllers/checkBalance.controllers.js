@@ -8,7 +8,7 @@ export default async function (req, res) {
     let cardFound;
     try {
         cardFound = await Card.findOne({ card_number: card.card_number }, 
-            'amount owner card_number card_type_id');
+            'balance owner card_number card_type_id');
     } catch (err) {
         return res.status(500).json({ err })
     }
@@ -21,6 +21,6 @@ export default async function (req, res) {
 
     return res.status(200).json({
         message: 'OK',
-        balance: cardFound.amount
+        balance: cardFound.balance
     });
 }
