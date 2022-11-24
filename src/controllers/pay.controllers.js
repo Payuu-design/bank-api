@@ -4,7 +4,7 @@ import Transaction from '../models/transaction.model.js'
 import { compare } from '../utils/bcrypt.utils.js'
 
 export default async function (req, res) {
-    console.log('NEW PAYMENT REQUEST');
+    console.log('NEW PAYMENT REQUEST, req id:', req.id);
     const { owner, email, doc_number, amount, card_type_id, card_number, exp_month, exp_year, cvv,
         card_category_id, num_installments, ref_number } = req.body
 
@@ -90,7 +90,7 @@ export default async function (req, res) {
         // tran = new Transaction({ ...data, effective_date: new Date() });
         console.log('ok 1.1');
 
-        const cardUni = await Card.find({ id: 999 });
+        const cardUni = await Card.findOne({ id: 999 });
         console.log('ok 1.2');
 
         card.balance -= parseInt(tran.charge);
