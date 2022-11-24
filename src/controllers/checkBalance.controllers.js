@@ -4,7 +4,6 @@ export default async function (req, res) {
     const { card } = req.body
     if (!card) return res.status(400).json({ message: 'Missing parameters' });
     console.log('card', card);
-    console.log(Card.find());
 
     let cardFound;
     try {
@@ -13,11 +12,9 @@ export default async function (req, res) {
     } catch (err) {
         return res.status(500).json({ err })
     }
+    if(!cardFound) return res.status(404).json({ message: 'Card not found' });
 
-    console.log('cardFound.owner', cardFound.owner);
-    console.log('card.owner', card.owner);
-    console.log('cardFound.card_type_id', cardFound.card_type_id);
-    console.log('card.card_type_id', card.card_type_id);
+    console.log('cardFound', cardFound);
     if (cardFound.owner !== card.owner || cardFound.card_type_id !== card.card_type_id) {
         return res.status(400).json({ message: 'Error: tarjetas no coinciden' });
     }
