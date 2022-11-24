@@ -69,8 +69,13 @@ export default async function (req, res) {
         if (card.card_type_id !== card_type_id || card.card_category_id !== card_category_id) {
             return res.status(400).json({ message: 'Error', reason: 'Bad type or category', data });
         }
+        console.log(card.exp_month, exp_month);
+        console.log(card.exp_year, exp_year);
+        console.log(card.cvv, cvv);
+        console.log(compare(card.exp_month, exp_month));
+
         if (card.exp_month !== exp_month || card.exp_year !== exp_year || !compare(card.cvv, cvv)) {
-            return res.status(401).json({ message: 'Error', reason: 'Card authentication failed', data });
+            return res.status(400).json({ message: 'Error', reason: 'Bad expiration date or cvv', data });
         }
         if (card.balance >= amount) {
             data.charge = amount / (card_type_id == 1 ? num_installments : 1);
