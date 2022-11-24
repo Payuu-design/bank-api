@@ -38,6 +38,8 @@ export default async function (req, res) {
     } catch (err) {
         return res.status(500).json({ message: 'Error', reason: 'Internal server error', data });
     }
+    console.log('ref_number', ref_number);
+    console.log('tran', tran);
     if (tran) return res.status(400).json({
         message: 'OK',
         reason: 'Transaction already processed',
