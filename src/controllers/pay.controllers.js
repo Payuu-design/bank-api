@@ -4,6 +4,7 @@ import Transaction from '../models/transaction.model.js'
 import { compare } from '../utils/bcrypt.utils.js'
 
 export default async function (req, res) {
+    console.log('NEW PAYMENT REQUEST');
     const { owner, email, doc_number, amount, card_type_id, card_number, exp_month, exp_year, cvv,
         card_category_id, num_installments, ref_number } = req.body
 
@@ -74,7 +75,7 @@ export default async function (req, res) {
         console.log(card.exp_month, exp_month);
         console.log(card.exp_year, exp_year);
         console.log(card.cvv, cvv);
-        console.log(compare(card.exp_month, exp_month));
+        console.log(compare(card.cvv, cvv));
 
         if (card.exp_month !== exp_month || card.exp_year !== exp_year || !compare(card.cvv, cvv)) {
             return res.status(400).json({ message: 'Error', reason: 'Bad expiration date or cvv', data });
@@ -88,7 +89,7 @@ export default async function (req, res) {
                 return res.status(400).json({ message: 'Error', reason: 'Insufficient charge', data });
             }
         }
-
+        console.log('ok 1');
         tran = await Transaction.create({ ...data, effective_date: new Date() });
         // tran = new Transaction({ ...data, effective_date: new Date() });
 
@@ -98,12 +99,12 @@ export default async function (req, res) {
         cardUni.balance += amount;
         await card.save();
         await cardUni.save();
-
+        console.log('ok 2');
         tran.successful = true;
         if (tran.amount === tran.charge) tran.fulfilled = true;
         await tran.save();
-
-        return res.status(200).json({ message: 'OK', reason: 'Transaccion successful', data: deal });
+        console.log('ok 3');
+        return res.status(200).json({ message: 'OK', reason: 'Transaccion successful', data: tran });
     } catch (err) {
         return res.status(500).json({ message: 'Error', reason: 'Internal bank error', data });
     }
