@@ -1,5 +1,27 @@
 import Person from '../models/person.model.js';
 
+export async function readOne (req, res) {
+    const { id } = req.params;
+    try {
+        const person = await Person.findById(id);
+        if (!person) {
+            return res.status(404).json({ message: `Person with id ${id} not found` });
+        }
+        res.status(200).json(person);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+export async function readMany (_, res) {
+    try {
+        const persons = await Person.find();
+        res.status(200).json(persons);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 export async function createOne (req, res) {
     const { id, name, email, doc_number } = req.body;
 

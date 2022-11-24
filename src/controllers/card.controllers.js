@@ -1,5 +1,27 @@
 import Card from '../models/card.model.js';
 
+export async function readOne (req, res) {
+    const { id } = req.params;
+    try {
+        const card = await Card.findById(id);
+        if (!card) {
+            return res.status(404).json({ message: `Card with id ${id} not found` });
+        }
+        res.status(200).json(card);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+export async function readMany (_, res) {
+    try {
+        const cards = await Card.find();
+        res.status(200).json(cards);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 export async function createOne (req, res) {
     const { id, owner, person_id, exp_month, exp_year, cvv, balance, card_number, 
         card_category_id, card_type_id } = req.body

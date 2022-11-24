@@ -2,8 +2,8 @@ import { Router } from 'express';
 import pay from './pay.routes.js';
 import checkBalance from './checkBalance.routes.js';
 import checkCard from './checkCard.routes.js';
-import card from './person.routes.js';
-import person from './card.routes.js';
+import person from './person.routes.js';
+import card from './card.routes.js';
 
 const router = Router();
 
