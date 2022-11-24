@@ -11,7 +11,7 @@ router.use('/pay', pay);
 router.use('/check-balance', checkBalance);
 router.use('/check-card', checkCard);
 
-router.use('/card', card);
-router.use('/person', person);
+router.use('/cards', card);
+router.use('/persons', person);
 
 export default router;
