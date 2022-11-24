@@ -72,10 +72,6 @@ export default async function (req, res) {
         if (card.card_type_id !== card_type_id || card.card_category_id !== card_category_id) {
             return res.status(400).json({ message: 'Error', reason: 'Bad type or category', data });
         }
-        console.log(card.exp_month, exp_month);
-        console.log(card.exp_year, exp_year);
-        console.log(card.cvv, cvv);
-        console.log(compare(card.cvv, cvv));
 
         if (card.exp_month !== exp_month || card.exp_year !== exp_year || !compare(card.cvv, cvv)) {
             return res.status(400).json({ message: 'Error', reason: 'Bad expiration date or cvv', data });
@@ -92,12 +88,17 @@ export default async function (req, res) {
         console.log('ok 1');
         tran = await Transaction.create({ ...data, effective_date: new Date() });
         // tran = new Transaction({ ...data, effective_date: new Date() });
+        console.log('ok 1.1');
 
         const cardUni = await Card.findById(999);
+        console.log('ok 1.2');
 
         card.balance -= parseInt(tran.charge);
+        console.log('ok 1.3');
         cardUni.balance += amount;
+        console.log('ok 1.4');
         await card.save();
+        console.log('ok 1.5');
         await cardUni.save();
         console.log('ok 2');
         tran.successful = true;
@@ -106,6 +107,7 @@ export default async function (req, res) {
         console.log('ok 3');
         return res.status(200).json({ message: 'OK', reason: 'Transaccion successful', data: tran });
     } catch (err) {
+        console.log(err);
         return res.status(500).json({ message: 'Error', reason: 'Internal bank error', data });
     }
 }
